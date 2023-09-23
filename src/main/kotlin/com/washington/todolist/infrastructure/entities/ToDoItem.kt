@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
+import java.io.Serializable
 import java.time.LocalDateTime
 import java.util.Date
 import java.util.UUID
@@ -43,7 +44,7 @@ data class ToDoItem (
     @Column
     @Enumerated(EnumType.STRING)
     val status: StatusEnum
-){
+) : Serializable {
     @CreationTimestamp
     @Column(name = "created_at")
     lateinit var createdAt: LocalDateTime

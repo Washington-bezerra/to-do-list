@@ -1,5 +1,6 @@
 package com.washington.todolist.infrastructure.entities
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.washington.todolist.domain.enums.priority.PriorityEnum
 import com.washington.todolist.domain.enums.status.StatusEnum
 import jakarta.persistence.Column
@@ -13,7 +14,10 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.Fetch
+import org.hibernate.annotations.FetchMode
 import org.hibernate.annotations.UpdateTimestamp
+import java.io.Serializable
 import java.time.LocalDateTime
 import java.util.Date
 import java.util.UUID
@@ -25,7 +29,7 @@ data class ToDoList (
     @Id
     val id: UUID,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     val userId: User,
 
@@ -46,9 +50,9 @@ data class ToDoList (
     @Enumerated(EnumType.STRING)
     val status: StatusEnum,
 
-    @OneToMany(mappedBy = "list")
+    @OneToMany(mappedBy = "list", fetch = FetchType.EAGER)
     val items: List<ToDoItem>? = null
-){
+) : Serializable {
     @CreationTimestamp
     @Column(name = "created_at")
     lateinit var createdAt: LocalDateTime

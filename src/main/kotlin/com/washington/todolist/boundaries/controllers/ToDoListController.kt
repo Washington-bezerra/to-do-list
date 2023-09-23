@@ -4,6 +4,7 @@ import com.washington.todolist.application.usecases.CreateToDoListUseCase
 import com.washington.todolist.boundaries.models.requests.ToDoListRequest
 import com.washington.todolist.infrastructure.entities.ToDoList
 import com.washington.todolist.infrastructure.repositories.ToDoListRepository
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -23,6 +24,7 @@ class ToDoListController (
     }
 
     @GetMapping("/api/to-do-list/{toDoListId}")
+    @Cacheable("to-do-list")
     fun getToDoList(
         @PathVariable toDoListId: UUID,
     ): Optional<ToDoList> {
